@@ -1,0 +1,116 @@
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(){
+	
+	printf("Vetor aleatorio\n");
+	long int n=20000;
+	int x;
+	
+	for(x=1; x<6; x++){
+		int r = n; long int p=0;
+		long int i;
+    	long int vetorAl[n];
+  		clock_t t1, t2;
+	     for (i=0; i<n; i++) {
+	        vetorAl[i] = rand();
+	    }
+	    t1 = clock();
+	    mergeSort(vetorAl, p, r);
+	    t2 = clock();
+	    // Exibição do vetor aleatório ordenado
+	   /*for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorAl[i]);
+		}*/
+	    printf("Para n = %ld o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	    n = n*2;
+	}
+//entrada com vetor crescente
+
+printf("Resultado vetor crescente\n");
+    n=20000;
+    long int r = n; long int p=0;
+    long int j; long int i;
+    for(j=1; j<6; j++){
+    	long int p=0; long int r=n;
+    	long int vetorC[n];
+  	    clock_t t1, t2;
+	    
+	    for (i=0; i<n; i++) {
+	        vetorC[i] = i;
+	    }
+	    t1 = clock();
+	    mergeSort(vetorC, p, r);
+	    t2 = clock();
+	    printf("Para n = %ld o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	   /*Exibição do vetor ordenado
+	   for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorC[i]);
+		}*/
+	    n = n*2;
+	}
+	printf("Resultado vetor decrescente\n");
+    n=20000;
+    for(j=1; j<6; j++){
+    	long int p=0; long int r=n; long int i;
+    	long int vetorD[n];
+    	clock_t t1, t2;
+	    
+	   for (i=0; i<n; i++) {
+        vetorD[n-i-1] = i;
+    	}
+    	/*Exibição do vetor antes da ordenação
+		 for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorD[i]);
+		}*/
+	    t1 = clock();
+	    mergeSort(vetorD, p, r);
+	    t2 = clock();
+	    printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	    
+		/*Exibição do vetor após ordenação
+		 for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorD[i]);
+		}*/
+	    n = n*2;
+	}
+	
+}
+
+
+
+void mergeSort(long int a[], long int p, long int r){
+	long int q;
+	if (p<r){
+		q = floor((p+r)/2);
+		mergeSort(a, p, q);
+		mergeSort(a, q+1, r);
+		intercala(a, p, q, r);
+	}
+	
+}
+
+void intercala(long int a[], long int p, long int q, long int r){
+	long int b[r];
+	long int i; long int j; long int k;
+	for (i=p; i<=q; i++){
+		b[i] = a[i];
+	}
+	for(j=q+1; j<=r; j++){
+		b[q+r+1-j] = a[j];
+	}
+	i = p;
+	j = r;
+	for(k=p; k<=r; k++){
+		if(b[i] <= b[j]){
+			a[k] = b[i];
+			i++;
+		}
+		else{
+			a[k] = b[j];
+			j--;
+		}
+	}
+	
+}

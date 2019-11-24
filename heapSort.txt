@@ -1,0 +1,123 @@
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+int main()
+{
+
+	//Resultado vetor aleatorio
+	srand(time(NULL));
+    long int i;
+    long int n=20000;
+	long int max=n;
+    int j=1;
+	
+	
+	/******Resultado vetor aleatorio*******/
+    printf("Resultado vetor aleatorio\n");
+    for(j=1; j<6; j++)
+	{
+    	long int vet[n];
+  
+	
+	    clock_t t1, t2;
+	    
+		for (i = 0; i < max; i++) 
+		{
+		vet[i] = rand();
+		}
+	    t1 = clock();
+	    heapsort(vet,n);
+	    t2 = clock();
+	    printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	    n = n*2;
+	}
+
+	
+	/*******Resultado vetor crescente*******/  
+    printf("Resultado vetor crescente\n");
+    n=20000;
+    for(j=1; j<6; j++)
+    {
+    	long int vet[n];
+  	    clock_t t1, t2;
+	    
+	    for (i=0; i<n; i++) 
+        {
+	        vet[i] = i;
+	    }
+	    t1 = clock();
+	    heapsort(vet,n);
+	    t2 = clock();
+	    printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	    n = n*2;
+	}
+
+	/*******Resultado vetor decrescente*******/ 
+	printf("Resultado vetor decrescente\n");
+    n=20000;
+    for(j=1; j<6; j++)
+	{
+    	long int vet[n];
+  	    clock_t t1, t2;
+	    
+	   for (i=0; i<n; i++) 
+	   {
+		   vet[n-i-1] = i;
+	   }
+       t1 = clock();
+	   heapsort(n, vet);
+	   t2 = clock();
+	   printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	   n = n*2;
+    }
+
+}
+
+
+/*******HEAP SORT********/
+void peneira(int vet, int raiz, int fundo);
+
+void heapsort(int vet, int n) {
+	long int i, tmp;
+
+	for (i = (n / 2); i >= 0; i--) {
+		peneira(vet, i, n - 1);
+	}
+
+	for (i = n-1; i >= 1; i--) {
+		tmp = vet[0];
+		vet[0] = vet[i];
+		vet[i] = tmp;
+		peneira(vet, 0, i-1);
+	}
+}
+
+void peneira(int *vet, int raiz, int fundo) {
+	long int pronto, filhoMax, tmp;
+
+	pronto = 0;
+	while ((raiz*2 <= fundo) && (!pronto)) {
+		if (raiz*2 == fundo) {
+			filhoMax = raiz * 2;
+		}
+		else if (vet[raiz * 2] > vet[raiz * 2 + 1]) {
+			filhoMax = raiz * 2;
+		}
+		else {
+			filhoMax = raiz * 2 + 1;
+		}
+
+	if (vet[raiz] < vet[filhoMax]) {
+		tmp = vet[raiz];
+		vet[raiz] = vet[filhoMax];
+		vet[filhoMax] = tmp;
+		raiz = filhoMax;
+    }
+	else {
+      pronto = 1;
+	}
+  }
+}

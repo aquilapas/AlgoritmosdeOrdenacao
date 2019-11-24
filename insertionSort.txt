@@ -1,0 +1,96 @@
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(){
+
+	//Resultado vetor aleatorio
+	srand(time(NULL));
+    long int i;
+    long int n=20000;
+    int j=1;
+
+    printf("Resultado vetor aleatorio\n");
+    for(j=1; j<6; j++){
+    	long int vetorAl[n];
+  
+	
+	    clock_t t1, t2;
+	    
+	    for (i=0; i<n; i++) {
+	        vetorAl[i] = rand();
+	    }
+	    t1 = clock();
+	    ordenaInsertionSort(n, vetorAl);
+	    t2 = clock();
+	     /*Exibição do vetor ordenado
+	   for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorAl[i]);
+		}*/
+	    printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	    n = n*2;
+	}
+
+  
+    printf("Resultado vetor crescente\n");
+    n=20000;
+    for(j=1; j<6; j++){
+    	long int vetorC[n];
+  	    clock_t t1, t2;
+	    
+	    for (i=0; i<n; i++) {
+	        vetorC[i] = i;
+	    }
+	    t1 = clock();
+	    ordenaInsertionSort(n, vetorC);
+	    t2 = clock();
+	    printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	   /*Exibição do vetor ordenado
+	   for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorC[i]);
+		}*/
+	    n = n*2;
+	}
+
+
+	printf("Resultado vetor decrescente\n");
+    n=20000;
+    for(j=1; j<6; j++){
+    	long int vetorD[n];
+  	    clock_t t1, t2;
+	    
+	   for (i=0; i<n; i++) {
+        vetorD[n-i-1] = i;
+    	}
+    	/*Exibição do vetor antes da ordenação
+		 for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorD[i]);
+		}*/
+	    t1 = clock();
+	    ordenaInsertionSort(n, vetorD);
+	    t2 = clock();
+	    printf("Para n = %d o tempo eh %.6f ms\n", n, ((double)(t2-t1)/CLOCKS_PER_SEC)*1000);
+	    
+		/*Exibição do vetor após ordenação
+		 for(i=0;i<n; i++){
+	    	printf("%ld\n",vetorD[i]);
+		}*/
+	    n = n*2;
+	}
+
+}
+	
+void ordenaInsertionSort(int tam, int a[tam]){
+	int i, j, x;
+	for(j=1; j<tam; j++){
+		x = a[j];
+		i = j-1;
+		
+		while(i>=0 && a[i]>x){
+			a[i+1] = a[i];
+			i--;
+		}
+		a[i+1] = x;
+	}
+
+}
